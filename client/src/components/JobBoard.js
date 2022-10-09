@@ -1,10 +1,15 @@
 import JobList from './JobList';
-import { jobs } from '../fake-data';
 import { getJobs } from '../graphql/queries.js'
-
-getJobs();
+import { useEffect, useState } from 'react'
 
 function JobBoard() {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    //getJobs().then((jobs) => setJobs(jobs))
+    getJobs().then(setJobs)
+  }, []) // @NOTE: change if dependency changes
+
   return (
     <div>
       <h1 className="title">
