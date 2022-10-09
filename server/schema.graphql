@@ -22,6 +22,7 @@ type Company {
 
 type Mutation {
   createJob(input: CreateJobInput!): Job
+  deleteJob(id: ID!): Job
 }
 
 input CreateJobInput {
