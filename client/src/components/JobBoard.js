@@ -1,14 +1,12 @@
 import JobList from './JobList';
-import { getJobs } from '../graphql/queries.js'
-import { useEffect, useState } from 'react'
+import { useJobs } from '../graphql/hooks.js'
 
 function JobBoard() {
-  const [jobs, setJobs] = useState([]);
 
-  useEffect(() => {
-    //getJobs().then((jobs) => setJobs(jobs))
-    getJobs().then(setJobs)
-  }, []) // @NOTE: change if dependency changes
+  const { jobs, loading, error } = useJobs()
+
+  if (loading) return <p>LOADING...</p>
+  if (error) return <p>ERROR...</p>
 
   return (
     <div>
@@ -21,3 +19,14 @@ function JobBoard() {
 }
 
 export default JobBoard;
+
+// @NOTE: we can build our own effet
+//const { data, loading, error } = useQuery(JOBS_QUERY, { fetchPolicy: 'network-only' })
+//const { jobs } = data
+
+// @NOTE: full react example, not required because we are using `useQuery`
+// const [jobs, setJobs] = useState([]);
+// useEffect(() => {
+//   //getJobs().then((jobs) => setJobs(jobs))
+//   getJobs().then(setJobs)
+// }, []) // @NOTE: change if dependency changes
