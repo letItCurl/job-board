@@ -1,6 +1,7 @@
 # @NOTE: Job! no null element in the list
 type Query {
   jobs: [Job!]
+  job(id: ID!): Job
 }
 
 # @NOTE: ID! means not null
