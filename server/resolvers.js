@@ -1,6 +1,12 @@
 import { Job, Company } from './db.js'
 
 // @NOTE: This should match the schema def.
+function rejectIf(condition) {
+  if (condition) {
+    throw new Error('NOOP')
+  };
+}
+
 export const resolvers = {
   Query: {
     jobs: () => Job.findAll(),
@@ -15,18 +21,25 @@ export const resolvers = {
   },
   Mutation: {
     createJob: (_root, {input}, {user}) => {
-      console.log(user)
-      //if (!user) {
-      //  throw new Error('NOOP')
-      //};
+      rejectIf(!user)
 
       return Job.create({...input, companyId: user.companyId})
     },
-    deleteJob: (_root, {id}) => {
+    deleteJob: async (_root, {id}, {user}) => {
+      rejectIf(!user)
+
+      const job = await Job.findById(id)
+      rejectIf(user.companyId != job.companyId)
+
       return Job.delete(id)
     },
-    updateJob: (_root, {input}) => {
-      return Job.update(input)
+    updateJob: async (_root, {input}, {user}) => {
+      rejectIf(!user)
+
+      const job = await Job.findById(input.id)
+      rejectIf(user.companyId != job.companyId)
+
+      return Job.update({...input, companyId: job.companyId})
     },
   }
 }
