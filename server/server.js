@@ -32,7 +32,14 @@ app.post('/login', async (req, res) => {
 
 // @NOTE: gql setup
 const typeDefs = await readFile('./schema.graphql', 'utf8'); // @NOTE: types in file
-const apolloServer = new ApolloServer({ typeDefs, resolvers }) // @NOTE: init apollo
+const context = async ({req}) => {
+  if (req.auth) {
+    const user = await User.findById(req.auth.sub)
+    return {user}
+  }
+  return {}
+}
+const apolloServer = new ApolloServer({ typeDefs, resolvers, context }) // @NOTE: init apollo
 await apolloServer.start(); // @NOTE: start it (it is a promise)
 apolloServer.applyMiddleware({app, path: '/graphql'}) // @NOTE: applyMiddleware
 

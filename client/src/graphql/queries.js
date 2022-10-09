@@ -1,5 +1,6 @@
 // @NOTE: gql is note the same as the one given by graphql, this is just to intelecene
 import { request, gql } from 'graphql-request'
+import { getAccessToken } from '../auth'
 
 const GRAPHQL_URL = 'http://localhost:9000/graphql'
 
@@ -68,7 +69,7 @@ export async function createJob(input) {
     }
   `
   const variables = { input }
-
-  const { job } = await request(GRAPHQL_URL, query, variables)
+  const requestHeaders = { 'Authorization': 'Bearer ' + getAccessToken() }
+  const { job } = await request(GRAPHQL_URL, query, variables, requestHeaders)
   return job
 }

@@ -14,8 +14,13 @@ export const resolvers = {
     jobs: (company) => Job.findAll((job) => job.companyId == company.id)
   },
   Mutation: {
-    createJob: (_root, {input}) => {
-      return Job.create(input)
+    createJob: (_root, {input}, {user}) => {
+      console.log(user)
+      //if (!user) {
+      //  throw new Error('NOOP')
+      //};
+
+      return Job.create({...input, companyId: user.companyId})
     },
     deleteJob: (_root, {id}) => {
       return Job.delete(id)

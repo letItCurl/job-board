@@ -28,7 +28,6 @@ type Mutation {
 
 input CreateJobInput {
   title: String!
-  companyId: ID!
   description: String
 }
 
