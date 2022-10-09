@@ -46,12 +46,15 @@ export async function getCompany(id) {
         id
         name
         description
+        jobs {
+          id
+          title
+        }
       }
     }
   `
   const variables = { id }
 
   const { company } = await request(GRAPHQL_URL, query, variables)
-  console.log(id)
   return company
 }
