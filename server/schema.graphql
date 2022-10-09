@@ -2,6 +2,7 @@
 type Query {
   jobs: [Job!]
   job(id: ID!): Job
+  company(id: ID!): Company
 }
 
 # @NOTE: ID! means not null
@@ -15,4 +16,5 @@ type Job {
 type Company {
   id: ID!
   name: String!
+  description: String
 }

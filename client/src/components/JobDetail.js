@@ -1,7 +1,7 @@
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { getJob } from '../graphql/queries.js'
 
+import { getJob } from '../graphql/queries.js'
 import { useState, useEffect } from 'react'
 
 function JobDetail() {
